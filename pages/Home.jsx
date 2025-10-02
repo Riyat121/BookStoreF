@@ -12,7 +12,7 @@ const  [showType, setShowType] = useState('table')
 
 useEffect(()=>{
     setLoading(true);
-    axios.get('http://localhost:5555/books')
+    axios.get('https://book-store-b.vercel.app/')
     .then((res)=>{
         setBooks(res.data.data);
         setLoading(false);
