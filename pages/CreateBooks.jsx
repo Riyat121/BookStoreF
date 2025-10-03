@@ -14,19 +14,28 @@ function CreateBooks() {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveBook = async () => {
-    const data = { title, author, publishYear };
+    const trimmedTitle = title.trim();
+    const trimmedAuthor = author.trim();
+    const yearNumber = publishYear === '' ? NaN : Number(publishYear);
+
+    if (!trimmedTitle || !trimmedAuthor || Number.isNaN(yearNumber)) {
+      enqueueSnackbar('Please provide title, author, and a valid publish year.', { variant: 'warning' });
+      return;
+    }
+
+    const data = { title: trimmedTitle, author: trimmedAuthor, publishYear: yearNumber };
 
     try {
       setLoading(true);
       await api.post('/books', data);
-
       setLoading(false);
-      enqueueSnackbar('Book created successfully', { variant: "success" }); // ✅
+      enqueueSnackbar('Book created successfully', { variant: "success" });
       navigate('/');
     } catch (error) {
       setLoading(false);
-      enqueueSnackbar("An error occurred. Please check console.", { variant: "error" }); // ✅
-      console.error(error);
+      const serverMsg = error?.response?.data?.message || error?.message || 'Unknown error';
+      enqueueSnackbar(`Create failed: ${serverMsg}`, { variant: "error" });
+      console.error('Create book error:', error);
     }
   }
 
