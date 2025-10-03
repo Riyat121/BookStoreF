@@ -1,7 +1,7 @@
 import React, { useState ,useEffect } from 'react'
 import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
-import axios from 'axios'
+import { api } from '../src/api'
 import { useSnackbar } from 'notistack'
 import { useNavigate,useParams } from 'react-router-dom'
 function EditBooks() {
@@ -11,10 +11,10 @@ const [publishYear, setPublishYear] = useState('');
 const [loading,setLoading] = useState(false);
 const navigate = useNavigate();
 const {id} = useParams();
-const {enqueSnackbar} = useSnackbar();
+const { enqueueSnackbar } = useSnackbar();
 useEffect(()=>{
   setLoading(true)
-    axios.get(`http://localhost:5555/books/${id}`)
+    api.get(`/books/${id}`)
     .then((response)=>{
         setAuthor(response.data.author);
         setTitle(response.data.title);
@@ -36,16 +36,16 @@ const handleEditBook = ()=>{
         publishYear,
     };
     setLoading(true);
-    axios.put(`https://book-store-b.vercel.app/books/${id}`,data)
+    api.put(`/books/${id}`,data)
     .then(()=>{
         setLoading(false);
-        enqueSnackbar("book edited sucessfully" , {variant: "success"})
+        enqueueSnackbar("book edited sucessfully" , {variant: "success"})
         navigate('/');
     })
     .catch((error)=>{
         setLoading(false);
         alert("an error occrued please check console ");
-         enqueSnackbar("error" , {variant: "error"})
+         enqueueSnackbar("error" , {variant: "error"})
         console.log(error);
         
     })

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { api } from '../src/api';
 import Spinner from '../components/Spinner';
 import { Link } from 'react-router-dom';
 import BooksTable from '../components/home/BooksTable';
@@ -13,8 +13,8 @@ function Home() {
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get('https://book-store-b.vercel.app/books') // 👈 ensure your backend route is correct
+    api
+      .get('/books')
       .then((res) => {
         console.log("Books API response:", res.data);
         // If backend sends { data: [...] } use res.data.data

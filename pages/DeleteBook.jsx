@@ -1,26 +1,26 @@
 import React, { useState ,useEffect } from 'react'
 import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
-import axios from 'axios'
+import { api } from '../src/api'
 import { useNavigate,useParams } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
 function DeleteBook() {
     const [loading,setLoading] = useState(false);
     const navigate = useNavigate();
     const {id} = useParams();
-const {enqueSnackbar} = useSnackbar();
+const { enqueueSnackbar } = useSnackbar();
     const handleDeleteBook =()=>{
         setLoading(true);
-        axios.delete(`https://book-store-b.vercel.app/books/${id}`)
+        api.delete(`/books/${id}`)
          .then(()=>{
         setLoading(false);
-          enqueSnackbar("book deleted sucessfully" , {variant: "success"})
+          enqueueSnackbar("book deleted sucessfully" , {variant: "success"})
         navigate('/');
     })
     .catch((error)=>{
         setLoading(false);
         alert("an error occrued please check console ");
-          enqueSnackbar("error" , {variant: "error"})
+          enqueueSnackbar("error" , {variant: "error"})
         console.log(error);
         
     })

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
-import axios from 'axios'
+import { api } from '../src/api'
 import { useNavigate } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
 
@@ -11,14 +11,14 @@ function CreateBooks() {
   const [publishYear, setPublishYear] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();  // ✅ correct spelling
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveBook = async () => {
     const data = { title, author, publishYear };
 
     try {
       setLoading(true);
-      await axios.post('https://book-store-b-qqx5.vercel.app', data);
+      await api.post('/books', data);
 
       setLoading(false);
       enqueueSnackbar('Book created successfully', { variant: "success" }); // ✅

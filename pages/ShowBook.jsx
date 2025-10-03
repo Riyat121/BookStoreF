@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react'
-import axios from 'axios'
+import { api } from '../src/api'
 import { useParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
@@ -10,7 +10,7 @@ const {id} = useParams();
 
 useEffect(()=>{
     setLoading(true);
-    axios.get(`https://book-store-b.vercel.app/books/${id}`)
+    api.get(`/books/${id}`)
     .then((res)=>{
         setBook(res.data);
         setLoading(false);
