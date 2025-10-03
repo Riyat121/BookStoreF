@@ -18,7 +18,7 @@ function CreateBooks() {
 
     try {
       setLoading(true);
-      await axios.post('https://book-store-b.vercel.app/books', data);
+      await axios.post('https://book-store-b-qqx5.vercel.app', data);
 
       setLoading(false);
       enqueueSnackbar('Book created successfully', { variant: "success" }); // ✅
