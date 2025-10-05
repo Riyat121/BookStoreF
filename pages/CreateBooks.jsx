@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
 import { api } from '../src/api'
@@ -14,6 +14,14 @@ function CreateBooks() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+
+  // Optional: check token on mount to prevent unauthenticated access
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/'); // redirect to login if no token
+    }
+  }, [navigate]);
 
   const handleSaveBook = async () => {
     const trimmedTitle = title.trim();
@@ -32,7 +40,9 @@ function CreateBooks() {
       await api.post('/books', data);
       setLoading(false);
       enqueueSnackbar('Book created successfully', { variant: "success" });
-      navigate('/');
+
+      // Navigate to Home after successful creation
+      navigate('/home');
     } catch (error) {
       setLoading(false);
       const serverMsg = error?.response?.data?.message || error?.message || 'Unknown error';
@@ -130,7 +140,7 @@ function CreateBooks() {
             {/* Action Buttons */}
             <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
               <button
-                onClick={() => navigate('/')}
+                onClick={() => navigate('/home')} // ✅ redirect to Home instead of '/'
                 className="px-6 py-3 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-xl font-semibold transition-all duration-200"
               >
                 Cancel
@@ -160,4 +170,4 @@ function CreateBooks() {
   )
 }
 
-export default CreateBooks
+export default CreateBooks;
