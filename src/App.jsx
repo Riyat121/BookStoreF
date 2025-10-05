@@ -11,18 +11,20 @@ import SignUp from "../pages/SignUp";
 // ProtectedRoute component
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("token");
-  return token ? children : <Navigate to="/login" replace />;
+  return token ? children : <Navigate to="/" replace />;
 };
 
 function App() {
   return (
     <Routes>
-      {/* Default Home route */}
-      <Route path='/' element={<Home />} />
+      {/* Default route is Login */}
+      <Route path='/' element={<Login />} />
 
       {/* Auth routes */}
-      <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<SignUp />} />
+
+      {/* Protected Home route */}
+      <Route path='/home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
 
       {/* Protected book routes */}
       <Route path='/books/create' element={<ProtectedRoute><CreateBook /></ProtectedRoute>} />
@@ -32,7 +34,7 @@ function App() {
       {/* Public book details */}
       <Route path='/books/details/:id' element={<ShowBook />} />
 
-      {/* Catch-all route: redirect unknown paths to Home */}
+      {/* Catch-all route: redirect unknown paths to Login */}
       <Route path='*' element={<Navigate to='/' replace />} />
     </Routes>
   );
