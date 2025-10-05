@@ -27,7 +27,7 @@ function App() {
       <Route path='/home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
 
       {/* Protected book routes */}
-      <Route path='/books/create' element={<ProtectedRoute><CreateBook /></ProtectedRoute>} />
+      <Route path='/books/create' element={<CreateBook />} />
       <Route path='/books/edit/:id' element={<ProtectedRoute><EditBook /></ProtectedRoute>} />
       <Route path='/books/delete/:id' element={<ProtectedRoute><DeleteBook /></ProtectedRoute>} />
 
