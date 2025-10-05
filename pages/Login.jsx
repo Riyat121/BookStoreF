@@ -1,10 +1,11 @@
-// Login.jsx
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // ← import useNavigate
 import { api } from "../src/api";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
+  const navigate = useNavigate(); // ← create navigate function
 
   // handle input change
   const handleChange = (e) => {
@@ -22,6 +23,9 @@ function Login() {
 
       setMessage("Login successful 🎉");
       console.log("User:", res.data.user);
+
+      // redirect to Home page
+      navigate("/home");
     } catch (err) {
       setMessage(err.response?.data?.message || err.message || "Something went wrong");
     }
